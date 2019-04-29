@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title th:text="${cryptocoin.name} + ' Details - Mirkelor'"></title>
+
+</head>
+<body>
+
+    <div class="container">
+
+        <h3>Coin Directory</h3>
+        <hr>
+        <p class="h4 mb-4">Coin Details</p>
+
+            <!--Add hidden form file to handle update-->
+        <table class="table table-bordered table-striped" th:object="${cryptocoin}">
+            <tbody>
+            <tr>
+                <td>Rank</td>
+                <td th:text="*{rank}"/>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td th:text="*{name}"/>
+            </tr>
+            <tr>
+                <td>Symbol</td>
+                <td th:text="*{symbol}"/>
+            </tr>
+            <tr>
+                <td>Price USD</td>
+                <td th:text="*{priceUsd}"/>
+            </tr>
+            <tr>
+                <td>Price BTC</td>
+                <td th:text="*{priceBtc}"/>
+            </tr>
+            <tr>
+                <td>Volume 24H USD</td>
+                <td th:text="*{volumeUsd24H}"/>
+            </tr>
+            <tr>
+                <td>Market Cap USD</td>
+                <td th:text="*{marketCapUsd}"/>
+            </tr>
+            <tr>
+                <td>Available Supply</td>
+                <td th:text="*{availableSupply}"/>
+            </tr>
+            <tr>
+                <td>Total Supply</td>
+                <td th:text="*{totalSupply}"/>
+            </tr>
+            <tr>
+                <td>Change(%) 1H</td>
+                <td th:text="*{percentChange1H}"/>
+            </tr>
+            <tr>
+                <td>Change(%) 24H</td>
+                <td th:text="*{percentChange24H}"/>
+            </tr>
+            <form action="coin-list.html" th:action="@{/list}"
+                  th:object="${coin}">
+                <button type="submit" class="btn btn-info col-2">Back To Coin List</button>
+            </form>
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>

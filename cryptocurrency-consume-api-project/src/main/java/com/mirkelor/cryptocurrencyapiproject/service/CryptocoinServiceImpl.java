@@ -3,6 +3,8 @@ package com.mirkelor.cryptocurrencyapiproject.service;
 import com.mirkelor.cryptocurrencyapiproject.dao.CryptocoinDao;
 import com.mirkelor.cryptocurrencyapiproject.entity.Cryptocoin;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,5 +43,15 @@ public class CryptocoinServiceImpl implements CryptocoinService{
     @Override
     public void deleteByRank(int rank) {
         cryptocoinDao.deleteByRank(rank);
+    }
+
+    @Override
+    public List<Cryptocoin> findAll() {
+        return cryptocoinDao.findAll();
+    }
+
+    @Override
+    public Page<Cryptocoin> findAll(Pageable pageable) {
+        return cryptocoinDao.findAll(pageable);
     }
 }

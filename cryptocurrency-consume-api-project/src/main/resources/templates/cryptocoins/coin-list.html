@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <title>Coin Directory</title>
+</head>
+<body>
+    <div class="container">
+        <h2>Cryptocoin List</h2>
+        <hr>
+        <table class="table table-bordered table-striped">
+            <thead class="thead-dark">
+            <tr>
+                <th>Rank</th>
+                <th>Coin Name</th>
+                <th>Symbol</th>
+                <th>Price USD</th>
+                <th>Price BTC</th>
+            </tr>
+            </thead>
+
+            <tbody>
+
+                <tr th:each="tempCoin : ${coinList}">
+                    <td><a th:text="${tempCoin.rank}"
+                        th:href="@{/list/details(rank=${tempCoin.rank})}"
+                        class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.name}"
+                        th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.symbol}"
+                        th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.priceUsd}"
+                        th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.priceBtc}"
+                        th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                </tr>
+
+            </tbody>
+        </table>
+    </div>
+
+    <!-- cryptocoins pagination -->
+    <nav aria-label="Pagination" th:if="${coinList.totalPages gt 0}">
+        <ul class="pagination justify-content-center font-weight-bold">
+            <li class="page-item" th:classappend="${coinList.number eq 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/list?page={id}(id=${coinList.number lt 2 ? 1 : coinList.number})}"
+                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item" th:classappend="${i eq coinList.number + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence( 1, coinList.totalPages, 1)}">
+                <a class="page-link" th:href="@{/list?page={id}(id=${i})}" th:text="${i}"
+                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+            </li>
+            <li class="page-item" th:classappend="${coinList.number + 1 eq coinList.totalPages} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{/list?page={id}(id=${coinList.number + 2})}"
+                   aria-label="Next" title="Next Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+</body>
+</html>

@@ -8,7 +8,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 @SpringBootApplication
 @EnableScheduling
-public class CryptocurrencyApiProjectApplication {
+public class CryptocurrencyApiProjectApplication{
 
     @Autowired
     private Consumer consumer;
