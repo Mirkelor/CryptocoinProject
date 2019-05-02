@@ -1,24 +1,27 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:replace="fragments/navbar :: imports"></div>
+<div th:replace="fragments/navbar :: background"></div>
+
+<head>
+
     <title th:text="${cryptocoin.name} + ' Details - Mirkelor'"></title>
 
 </head>
 <body>
 
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<div class="card bg-light mb-3 mx-auto" style="width: 60rem;">
+    <div class="card-header text-center"><h2>Coin Details</h2></div>
+    <div class="card-body text-left" >
     <div class="container">
 
-        <h3>Coin Directory</h3>
-        <hr>
-        <p class="h4 mb-4">Coin Details</p>
-
             <!--Add hidden form file to handle update-->
+
         <table class="table table-bordered table-striped" th:object="${cryptocoin}">
             <tbody>
             <tr>
@@ -65,13 +68,16 @@
                 <td>Change(%) 24H</td>
                 <td th:text="*{percentChange24H}"/>
             </tr>
-            <form action="coin-list.html" th:action="@{/list}"
-                  th:object="${coin}">
-                <button type="submit" class="btn btn-info col-2">Back To Coin List</button>
-            </form>
             </tbody>
         </table>
+
+        <form action="coin-list.html" th:action="@{/list}"
+              th:object="${coin}">
+            <button type="submit" class="btn btn-outline-info">Back To Coin List</button>
+        </form>
     </div>
+    </div>
+</div>
 
 </body>
 </html>

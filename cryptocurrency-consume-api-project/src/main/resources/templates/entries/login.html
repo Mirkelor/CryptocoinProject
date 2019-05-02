@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  			 xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:replace="fragments/navbar :: imports"></div>
+<div th:replace="fragments/navbar :: background"></div>
+
+<head>
+
+
+
+	<title>Login Page</title>
+
+</head>
+
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<br>
+<br>
+
+<div class="card bg-light mb-3 mx-auto text-left" style="width: 25rem;">
+	<div class="card-header"><h4>Login</h4></div>
+	<div class="card-body">
+
+<div class="container login-container">
+	<div>
+		<div class="login-form-1">
+
+					<!-- Login Form -->
+					<form th:action="@{/login}" method="post">
+
+					    <!-- Place for messages: error, alert etc ... -->
+					    <div class="form-group">
+					        <div class="col-xs-15">
+					            <div>
+
+									<!--Check for login error-->
+									<div th:if="${param.error}">
+										<div class="alert alert-danger col-xs-offset-1 col-xs-10">
+											Invalid username and password.
+										</div>
+									</div>
+
+									<!--Check for logout-->
+									<div th:if="${param.logout}">
+										<div class="alert alert-success col-xs-offset-1 col-xs-10">
+											You have been logged out.
+										</div>
+									</div>
+
+					            </div>
+					        </div>
+					    </div>
+
+						<!-- User name -->
+						<div class="form-group">
+							<label for="username">Username</label>
+							<input type="text" id="username" name="username" placeholder="Username" autofocus="autofocus" class="form-control"/>
+						</div>
+
+						<!-- Password -->
+						<div class="form-group">
+							<label for="password">Password</label>
+							<input type="password" id="password" name="password" placeholder="Password" class="form-control"/>
+						</div>
+
+						<!-- Login/Submit Button -->
+						<button type="submit" class="btn btn-primary">Submit</button>
+
+						<!--<div class="form-group">-->
+								<!--<input type="submit" class="form-control btn btn-info"/>-->
+						<!--</div>-->
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
