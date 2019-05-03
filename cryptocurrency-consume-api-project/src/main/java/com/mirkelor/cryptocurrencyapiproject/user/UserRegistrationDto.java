@@ -1,7 +1,10 @@
 package com.mirkelor.cryptocurrencyapiproject.user;
 
+import com.mirkelor.cryptocurrencyapiproject.entity.User;
 import com.mirkelor.cryptocurrencyapiproject.validation.FieldMatch;
 import com.mirkelor.cryptocurrencyapiproject.validation.ValidEmail;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,7 +40,19 @@ public class UserRegistrationDto {
     @Size(min = 1, message = "is required")
     private String email;
 
+    private User user;
+
     public UserRegistrationDto() {
+    }
+
+    public UserRegistrationDto(User user){
+        this.user = user;
+        setUsername(user.getUsername());
+        setPassword(user.getPassword());
+        setMatchingPassword(getPassword());
+        setFirstName(user.getFirstName());
+        setLastName(user.getLastName());
+        setEmail(user.getEmail());
     }
 
     public String getUsername() {
@@ -86,5 +101,25 @@ public class UserRegistrationDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    @Override
+    public String toString() {
+        return "UserRegistrationDto{" +
+                "username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", matchingPassword='" + matchingPassword + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 }

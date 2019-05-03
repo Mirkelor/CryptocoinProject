@@ -1,6 +1,7 @@
 package com.mirkelor.cryptocurrencyapiproject.dao;
 
 import com.mirkelor.cryptocurrencyapiproject.entity.Cryptocoin;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,4 +18,6 @@ public interface CryptocoinDao extends JpaRepository<Cryptocoin, Integer> {
 
     @Override
     Page<Cryptocoin> findAll(Pageable pageable);
+
+    Page<Cryptocoin> findAllByNameOrSymbol(String search, Pageable pageable);
 }

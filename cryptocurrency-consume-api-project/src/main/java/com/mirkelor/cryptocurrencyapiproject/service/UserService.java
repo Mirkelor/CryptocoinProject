@@ -11,4 +11,6 @@ public interface UserService extends UserDetailsService {
     public User findByEmail(String email);
 
     public void save(UserRegistrationDto userRegistrationDto);
+
+    public void deleteUserByUsername(String username);
 }

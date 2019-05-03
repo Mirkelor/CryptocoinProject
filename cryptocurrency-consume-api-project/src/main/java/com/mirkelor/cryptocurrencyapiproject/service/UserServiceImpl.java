@@ -36,6 +36,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findByEmail(String email) {
+
+        return userDao.findByEmail(email);
+    }
+
+    @Override
+    public void deleteUserByUsername(String username){
+
+        userDao.deleteUserByUsername(username);
+    }
+
+    @Override
     public void save(UserRegistrationDto userRegistrationDto) {
 
         User user = new User();
@@ -56,8 +68,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(userName);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userDao.findByUsername(username);
         if(user == null){
             throw new UsernameNotFoundException("Invalid username or password");
         }
@@ -71,10 +83,5 @@ public class UserServiceImpl implements UserService {
 
         return roles.stream().map(role -> new
                 SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
-    }
-
-    @Override
-    public User findByEmail(String email) {
-        return userDao.findByEmail(email);
     }
 }

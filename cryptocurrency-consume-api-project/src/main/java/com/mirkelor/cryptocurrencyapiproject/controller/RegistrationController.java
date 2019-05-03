@@ -42,8 +42,7 @@ public class RegistrationController {
     @PostMapping
     public String processRegistrationForm(
             @Valid @ModelAttribute("userRegistrationDto") UserRegistrationDto userRegistrationDto,
-            BindingResult bindingResult,
-            Model model){
+            BindingResult bindingResult){
 
         String username = userRegistrationDto.getUsername();
         String email = userRegistrationDto.getEmail();
