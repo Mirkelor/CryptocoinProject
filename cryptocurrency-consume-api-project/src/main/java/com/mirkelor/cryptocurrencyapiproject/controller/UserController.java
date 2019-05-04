@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/user")
@@ -62,20 +63,54 @@ public class UserController {
         return "redirect:/user/profile";
     }
 
-    @RequestMapping("/delete")
-    public String deleteUser(Principal principal){
+    @GetMapping("/delete")
+    public String deleteUser(Model model, Principal principal){
 
-        userService.deleteUserByUsername(principal.getName());
+        User user = userService.findByUsername(principal.getName());
 
-        return "redirect:/logout";
+        UserRegistrationDto userRegistrationDto = new UserRegistrationDto(user);
+
+        model.addAttribute("userRegistrationDto", userRegistrationDto);
+
+        return "user/user-detail";
+    }
+
+    @PostMapping("/delete")
+    public String processDeleteUser(@ModelAttribute("userRegistrationDto") UserRegistrationDto userRegistrationDto,
+                                    Principal principal, BindingResult bindingResult){
+
+        System.out.println(userRegistrationDto);
+
+        User controlUser = userService.findByUsername(principal.getName());
+
+        boolean passControl = userService.getPasswordEncoder().matches(userRegistrationDto.getPassword(), controlUser.getPassword());
+
+        if (!passControl){
+            bindingResult.rejectValue("password", null, "The password is wrong");
+        }
+
+        if(bindingResult.hasErrors()){
+            System.out.println("There is an bindingResult Error");
+            return "user/user-detail";
+        }
+
+        if(passControl){
+            System.out.println("Two passwords are EQUAL process Delete");
+            userService.deleteUserByUsername(controlUser.getUsername());
+            return "redirect:/logout";
+        }
+
+        return "redirect:/user/profile";
     }
 }
 
     /*TODO
-            2-Add mapping for Admin Panel (/admin/panel)
-                a-admin should see all registrated user in a list
-                    -take all user list from database and list them in /admin/panel
-                b-admin should edit user information such as username,email,firstName,lastName,password
-                    -upon clicking update button which belongs to user, user profile should be editable in /admin/panel={userid} (by getmapping)
-            3-When a user delete once to delete account ask for password confirmation
+           -1-add update and delete button
+            0-add user roles to /admin/userlist page
+            1-add delete user option to admin panel (protected with admin password)
+            2-save user by admin should have email validation
+            3-add pageable search bar to /admin/userlist page
      */
+    /*FIXME
+            1-Price display with E in Coin list
+    */

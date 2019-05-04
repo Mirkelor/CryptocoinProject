@@ -23,5 +23,5 @@ public interface CryptocoinService{
 
     public Page<Cryptocoin> findAll(Pageable pageable);
 
-    public Page<Cryptocoin> findAllByNameOrSymbol(String search, Pageable pageable);
+    public Page<Cryptocoin> findBySearch(String search, Pageable pageable);
 }

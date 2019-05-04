@@ -52,7 +52,7 @@
                     Update
                     </a>
 
-                    <a th:href="@{delete}"
+                    <a th:href="@{delete}" th:method="get"
                        class="btn btn-danger btn-sm"
                        onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
                         Delete
@@ -85,8 +85,8 @@
 
                     <!-- Password -->
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" placeholder="Password (*)" class="form-control" th:field="*{password}"/>
+                        <label for="passwordId">Password</label>
+                        <input type="password" id="passwordId" placeholder="Password (*)" class="form-control" th:field="*{password}"/>
                         <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div>
 
@@ -138,6 +138,39 @@
                 </tbody>
             </table>
 
+
+
+        </div>
+
+        <div class="container" th:if="${#strings.contains(#httpServletRequest.requestURI, 'user/delete')}">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <form th:action="@{delete}" th:object="${userRegistrationDto}" method="post">
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Password (*)" class="form-control" th:field="*{password}"/>
+                        <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                    </div>
+
+                    <div class="card">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    class="btn btn-info btn-sm"
+                                    onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
+                                Delete
+                            </button>
+                            <a th:href="@{profile}"
+                               class="btn btn-danger btn-sm">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+
+                </form>
+                </tbody>
+            </table>
 
 
         </div>

@@ -15,6 +15,8 @@
 
 <div th:replace="fragments/navbar :: navbar"></div>
 
+<br>
+
 <div class="card bg-light mb-3 mx-auto" style="width: 60rem;">
     <div class="card-header text-center"><h2>Coin Details</h2></div>
     <div class="card-body text-left" >
@@ -71,8 +73,7 @@
             </tbody>
         </table>
 
-        <form action="coin-list.html" th:action="@{/list}"
-              th:object="${coin}">
+        <form action="coin-list.html" th:action="@{/list}">
             <button type="submit" class="btn btn-outline-info">Back To Coin List</button>
         </form>
     </div>

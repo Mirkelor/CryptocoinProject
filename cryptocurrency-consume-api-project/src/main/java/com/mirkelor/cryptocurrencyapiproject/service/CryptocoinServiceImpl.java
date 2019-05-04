@@ -56,7 +56,7 @@ public class CryptocoinServiceImpl implements CryptocoinService{
     }
 
     @Override
-    public Page<Cryptocoin> findAllByNameOrSymbol(String search, Pageable pageable) {
-        return cryptocoinDao.findAllByNameOrSymbol(search, pageable);
+    public Page<Cryptocoin> findBySearch(String search, Pageable pageable) {
+        return cryptocoinDao.findBySearch(search, pageable);
     }
 }

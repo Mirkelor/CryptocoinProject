@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,8 +72,10 @@ public class MainController {
 
     }
 
-    @GetMapping("/list/search")
-    public String search(@RequestParam("search") String search,HttpServletRequest request, Model model){
+    @RequestMapping("/list/search")
+    public String search(@RequestParam("search") String search, HttpServletRequest request, Model model){
+
+        System.out.println(search);
 
         int page = 0; // default page number is 0 (yes it is weird)
         int size = 15; // default page size is 10
@@ -85,9 +88,11 @@ public class MainController {
             size = Integer.parseInt(request.getParameter("size"));
         }
 
-        model.addAttribute("coinList" ,cryptocoinService.findAllByNameOrSymbol(search, PageRequest.of(page, size)));
+        model.addAttribute("search", search);
 
-        return "cryptocoins/coin-detail";
+        model.addAttribute("coinList" ,cryptocoinService.findBySearch(search, PageRequest.of(page, size)));
+
+        return "cryptocoins/coin-list";
     }
 
 }

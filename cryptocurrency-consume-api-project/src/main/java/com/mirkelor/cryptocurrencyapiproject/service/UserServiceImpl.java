@@ -6,6 +6,8 @@ import com.mirkelor.cryptocurrencyapiproject.entity.Role;
 import com.mirkelor.cryptocurrencyapiproject.entity.User;
 import com.mirkelor.cryptocurrencyapiproject.user.UserRegistrationDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -68,6 +70,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public Page<User> findAll(Pageable pageable) {
+        return userDao.findAll(pageable);
+    }
+
+    @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userDao.findByUsername(username);
         if(user == null){
@@ -83,5 +90,10 @@ public class UserServiceImpl implements UserService {
 
         return roles.stream().map(role -> new
                 SimpleGrantedAuthority(role.getRole())).collect(Collectors.toList());
+    }
+
+    @Override
+    public BCryptPasswordEncoder getPasswordEncoder() {
+        return passwordEncoder;
     }
 }

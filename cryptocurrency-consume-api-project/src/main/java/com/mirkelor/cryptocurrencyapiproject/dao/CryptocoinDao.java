@@ -6,7 +6,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.transaction.annotation.Transactional;
+
+import javax.persistence.QueryHint;
 
 public interface CryptocoinDao extends JpaRepository<Cryptocoin, Integer> {
 
@@ -16,8 +20,6 @@ public interface CryptocoinDao extends JpaRepository<Cryptocoin, Integer> {
     @Transactional
     void deleteByRank(int rank);
 
-    @Override
-    Page<Cryptocoin> findAll(Pageable pageable);
-
-    Page<Cryptocoin> findAllByNameOrSymbol(String search, Pageable pageable);
+    @Query("Select c from Cryptocoin c where c.name like %?1% or c.symbol like %?1%")
+    Page<Cryptocoin> findBySearch(String search, Pageable pageable);
 }

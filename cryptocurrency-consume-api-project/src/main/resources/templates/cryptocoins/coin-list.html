@@ -15,7 +15,7 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <br>
-<div class="card bg-light mb-3 mx-auto" style="width: 60rem;">
+<div class="card bg-light mb-3 mx-auto" style="width: 50rem;">
     <div class="card-header text-center"><h2>Cryptocoin List</h2></div>
     <div class="card-body text-left" >
     <div class="container">
@@ -58,7 +58,13 @@
 
     <!-- cryptocoins pagination -->
     <nav aria-label="Pagination" th:if="${coinList.totalPages gt 0}">
-        <ul class="pagination justify-content-center font-weight-bold">
+
+        <!--Pagination for List-->
+        <ul class="pagination justify-content-center font-weight-bold"
+            th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')} and
+            ${!#strings.contains(#httpServletRequest.requestURI, 'search')}">
+
+            <!--Backward Button-->
             <li class="page-item" th:classappend="${coinList.number eq 0} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{/list?page={id}(id=${coinList.number lt 2 ? 1 : coinList.number})}"
@@ -66,14 +72,48 @@
                     <span aria-hidden="true">&laquo;</span>
                 </a>
             </li>
+
+            <!--Page Buttons-->
             <li class="page-item" th:classappend="${i eq coinList.number + 1} ? 'active'"
                 th:each="i : ${#numbers.sequence( 1, coinList.totalPages, 1)}">
                 <a class="page-link" th:href="@{/list?page={id}(id=${i})}" th:text="${i}"
                    th:title="${'Page '+ i}" data-toggle="tooltip"></a>
             </li>
+
+            <!--Forward Button-->
             <li class="page-item" th:classappend="${coinList.number + 1 eq coinList.totalPages} ? 'disabled'">
                 <a class="page-link"
                    th:href="@{/list?page={id}(id=${coinList.number + 2})}"
+                   aria-label="Next" title="Next Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+
+        <!--Pagination for Search-->
+        <ul class="pagination justify-content-center font-weight-bold"
+            th:if="${#strings.contains(#httpServletRequest.requestURI, 'search')}">
+
+            <!--Backward Button-->
+            <li class="page-item" th:classappend="${coinList.number eq 0} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/list/search?page=' + ${coinList.number lt 2 ? 1 : coinList.number} + '&amp;search=' + ${search}}"
+                   aria-label="Previous" title="Previous Page" data-toggle="tooltip">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            <!--Page Buttons-->
+            <li  class="page-item" th:classappend="${i eq coinList.number + 1} ? 'active'"
+                th:each="i : ${#numbers.sequence( 1, coinList.totalPages, 1)}">
+                <a class="page-link" th:href="@{'/list/search?page=' + ${i} + '&amp;search=' + ${search}}" th:text="${i}"
+                   th:title="${'Page '+ i}" data-toggle="tooltip"></a>
+            </li>
+
+            <!--Forward Button-->
+            <li class="page-item" th:classappend="${coinList.number + 1 eq coinList.totalPages} ? 'disabled'">
+                <a class="page-link"
+                   th:href="@{'/list/search?page=' + ${coinList.number + 2} + '&amp;search=' + ${search}}"
                    aria-label="Next" title="Next Page" data-toggle="tooltip">
                     <span aria-hidden="true">&raquo;</span>
                 </a>
