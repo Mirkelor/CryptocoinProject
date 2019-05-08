@@ -27,6 +27,7 @@
                 <th>Symbol</th>
                 <th>Price USD</th>
                 <th>Price BTC</th>
+                <th sec:authorize="isAuthenticated()">Fav</th>
             </tr>
             </thead>
 
@@ -48,6 +49,11 @@
                     <td><a th:text="${tempCoin.priceBtc}"
                            th:href="@{/list/details(rank=${tempCoin.rank})}"
                            class="btn btn-light"/></td>
+                    <td sec:authorize="isAuthenticated()">
+                        <div>
+                            <i class='far fa-star'></i>
+                        </div>
+                    </td>
                 </tr>
 
             </tbody>
@@ -56,7 +62,7 @@
     </div>
 </div>
 
-    <!-- cryptocoins pagination -->
+    <!-- Pagination -->
     <nav aria-label="Pagination" th:if="${coinList.totalPages gt 0}">
 
         <!--Pagination for List-->
@@ -120,6 +126,12 @@
             </li>
         </ul>
     </nav>
+
+    <script th:inline="javascript">
+        $(".fa-star.far").click(function() {
+            $(this).toggleClass("fa far");
+        });
+    </script>
 
 </body>
 </html>

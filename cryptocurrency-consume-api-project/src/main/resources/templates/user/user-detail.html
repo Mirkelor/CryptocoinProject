@@ -8,7 +8,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title th:text="${#strings.capitalize(#authentication.getPrincipal().getUsername())} + ' Details - Mirkelor'"></title>
+    <title th:text="${#strings.capitalize(user.username)} + ' Details - Mirkelor'"></title>
 </head>
 <body>
 
@@ -18,10 +18,12 @@
 
 <div class="card bg-light mb-3 mx-auto" style="width: 32rem;">
     <div class="card-header text-center">
-        <h2><span th:text="${#strings.capitalize(#authentication.getPrincipal().getUsername())}"/> Details</h2></div>
-    <div class="card-body text-left" th:object="${user}">
+        <h2><div th:text="${#strings.capitalize(user.username)}"/> Details</h2></div>
+    <div class="card-body text-left" >
+
+        <!--user/profile page-->
         <div class="container" th:if="${#strings.contains(#httpServletRequest.requestURI, 'user/profile')}">
-            <table class="table table-bordered table-striped">
+            <table class="table table-bordered table-striped" th:object="${user}">
                 <tbody>
                 <tr>
                     <td>Username</td>
@@ -61,6 +63,7 @@
             </div>
         </div>
 
+        <!--user/edit page-->
         <div class="container" th:if="${#strings.contains(#httpServletRequest.requestURI, 'user/edit')}">
             <table class="table table-bordered table-striped">
                 <tbody>
@@ -76,7 +79,6 @@
                     </div>
 
                     <!-- User name -->
-
                     <div class="form-group" >
                         <label for="username"><h6>Username :  <span sec:authentication="name"></span></h6> </label>
                         <input type="hidden" id="username" placeholder="Username (*)" autofocus="autofocus" class="form-control mt-auto" th:field="*{username}"/>
@@ -85,8 +87,8 @@
 
                     <!-- Password -->
                     <div class="form-group">
-                        <label for="passwordId">Password</label>
-                        <input type="password" id="passwordId" placeholder="Password (*)" class="form-control" th:field="*{password}"/>
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Password (*)" class="form-control" th:field="*{password}"/>
                         <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
                     </div>
 
@@ -119,8 +121,7 @@
                         <p class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
                     </div>
 
-                    <!-- Register Button -->
-
+                    <!-- Update Button -->
                     <div class="card">
                         <div class="btn-group">
                             <button type="submit" class="btn btn-info btn-sm">Save</button>
@@ -142,6 +143,7 @@
 
         </div>
 
+        <!--user/delete page-->
         <div class="container" th:if="${#strings.contains(#httpServletRequest.requestURI, 'user/delete')}">
             <table class="table table-bordered table-striped">
                 <tbody>
@@ -162,6 +164,117 @@
                                 Delete
                             </button>
                             <a th:href="@{profile}"
+                               class="btn btn-danger btn-sm">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+
+                </form>
+                </tbody>
+            </table>
+
+
+        </div>
+
+        <!--admin/userlist/edit page-->
+        <div class="container" th:if="${#strings.contains(#httpServletRequest.requestURI, 'userlist/edit')}">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <form th:action="@{/admin/userlist/edit}" th:object="${userRegistrationDto}" method="post">
+
+                    <!-- Check for registration error -->
+                    <div th:if="${registrationError != null}">
+
+                        <div class="alert alert-danger col-xs-offset-1 col-xs-10">
+                            ${registrationError}
+                        </div>
+
+                    </div>
+
+                    <!-- User name -->
+                    <div class="form-group" >
+                        <label for="username"><h6>Username :  <span th:text="${user.username}"></span></h6> </label>
+                        <input type="hidden" id="username" placeholder="Username (*)" autofocus="autofocus" class="form-control mt-auto" th:field="*{username}"/>
+                        <p class="alert alert-danger" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <input type="hidden" id="password" placeholder="Password (*)" class="form-control" th:field="*{password}"/>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="form-group">
+                        <input type="hidden" id="matchingPassword" placeholder="Confirm password (*)" class="form-control" th:field="*{matchingPassword}"/>
+                    </div>
+
+
+                    <!--First name-->
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input type="text" id="firstName" placeholder="First name (*)" class="form-control" th:field="*{firstName}"/>
+                        <p class="alert alert-danger" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+                    </div>
+
+                    <!-- Last name -->
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input type="text" id="lastName" placeholder="Last name (*)" class="form-control" th:field="*{lastName}"/>
+                        <p class="alert alert-danger" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="form-group">
+                        <label for="email">Email address</label>
+                        <input type="text" id="email" placeholder="Email (*)" class="form-control" th:field="*{email}"/>
+                        <p class="alert alert-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                    </div>
+
+                    <!-- Update Button -->
+                    <div class="card">
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-info btn-sm">Save</button>
+
+                            <a th:href="@{/admin/userlist}"
+                               class="btn btn-danger btn-sm"
+                               onclick="if (!(confirm('Are you sure you want to cancel editing this user?'))) return false">
+                                Cancel
+                            </a>
+                        </div>
+                    </div>
+
+                </form>
+
+                </tbody>
+            </table>
+
+
+
+        </div>
+
+        <!--admin/userlist/delete page-->
+        <div class="container" th:if="${#strings.contains(#httpServletRequest.requestURI, 'userlist/delete')}">
+            <table class="table table-bordered table-striped">
+                <tbody>
+                <form th:action="@{/admin/userlist/delete}" th:object="${userRegistrationDto}" method="post">
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password">Admin Password</label>
+                        <input type="password" id="password" placeholder="Password (*)" class="form-control" th:field="*{password}"/>
+                        <input type="hidden" id="username" placeholder="Password (*)" class="form-control" th:field="*{username}"/>
+                        <p class="alert alert-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+                    </div>
+
+                    <div class="card">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    class="btn btn-info btn-sm"
+                                    onclick="if (!(confirm('Are you sure you want to delete this user?'))) return false">
+                                Delete
+                            </button>
+                            <a th:href="@{/admin/userlist}"
                                class="btn btn-danger btn-sm">
                                 Cancel
                             </a>

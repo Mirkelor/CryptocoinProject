@@ -30,6 +30,13 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "user_roles_role_id"))
     private List<Role> roles;
 
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(name = "users_has_cryptocoin",
+            joinColumns = @JoinColumn(name = "users_username"),
+            inverseJoinColumns = @JoinColumn(name = "cryptocoin_coin_rank"))
+    private List<Cryptocoin> favorites;
+
     public User() {
     }
 
@@ -49,6 +56,7 @@ public class User {
         this.lastName = lastName;
         this.roles = roles;
     }
+
 
     public String getUsername() {
         return username;
@@ -98,15 +106,23 @@ public class User {
         this.roles = roles;
     }
 
+    public List<Cryptocoin> getFavorites() {
+        return favorites;
+    }
+
+    public void setFavorites(List<Cryptocoin> favorites) {
+        this.favorites = favorites;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "username='" + username + '\'' +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", roles=" + roles +
+                ", favorites=" + favorites +
                 '}';
     }
 }

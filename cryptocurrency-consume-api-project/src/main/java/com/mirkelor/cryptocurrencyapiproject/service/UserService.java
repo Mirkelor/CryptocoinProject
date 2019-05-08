@@ -3,7 +3,6 @@ package com.mirkelor.cryptocurrencyapiproject.service;
 import com.mirkelor.cryptocurrencyapiproject.entity.User;
 import com.mirkelor.cryptocurrencyapiproject.user.UserRegistrationDto;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -21,4 +20,6 @@ public interface UserService extends UserDetailsService {
     public BCryptPasswordEncoder getPasswordEncoder();
 
     public Page<User> findAll(Pageable pageable);
+
+    public Page<User> findBySearch(String search, Pageable pageable);
 }

@@ -30,7 +30,6 @@ public class UserController {
 
         model.addAttribute("user", user);
 
-
         return "user/user-detail";
     }
 
@@ -43,6 +42,8 @@ public class UserController {
 
         model.addAttribute("user", user);
 
+        System.out.println("getmapping edit user: "+user);
+
         model.addAttribute("userRegistrationDto", userRegistrationDto);
 
         return "user/user-detail";
@@ -50,9 +51,11 @@ public class UserController {
 
     @PostMapping("/edit")
     public String saveUser(@Valid @ModelAttribute("userRegistrationDto") UserRegistrationDto userRegistrationDto,
-                           BindingResult bindingResult){
+                           BindingResult bindingResult, Model model){
 
-        System.out.println(userRegistrationDto);
+        User user = userService.findByUsername(userRegistrationDto.getUsername());
+
+        model.addAttribute("user", user);
 
         if(bindingResult.hasErrors()){
             return "user/user-detail";
@@ -70,6 +73,8 @@ public class UserController {
 
         UserRegistrationDto userRegistrationDto = new UserRegistrationDto(user);
 
+        model.addAttribute("user", user);
+
         model.addAttribute("userRegistrationDto", userRegistrationDto);
 
         return "user/user-detail";
@@ -77,11 +82,13 @@ public class UserController {
 
     @PostMapping("/delete")
     public String processDeleteUser(@ModelAttribute("userRegistrationDto") UserRegistrationDto userRegistrationDto,
-                                    Principal principal, BindingResult bindingResult){
+                                    Principal principal, BindingResult bindingResult, Model model){
 
         System.out.println(userRegistrationDto);
 
         User controlUser = userService.findByUsername(principal.getName());
+
+        model.addAttribute("user", controlUser);
 
         boolean passControl = userService.getPasswordEncoder().matches(userRegistrationDto.getPassword(), controlUser.getPassword());
 
@@ -104,13 +111,6 @@ public class UserController {
     }
 }
 
-    /*TODO
-           -1-add update and delete button
-            0-add user roles to /admin/userlist page
-            1-add delete user option to admin panel (protected with admin password)
-            2-save user by admin should have email validation
-            3-add pageable search bar to /admin/userlist page
-     */
     /*FIXME
             1-Price display with E in Coin list
     */

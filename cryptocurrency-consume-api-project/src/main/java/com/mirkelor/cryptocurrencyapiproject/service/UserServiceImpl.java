@@ -52,18 +52,29 @@ public class UserServiceImpl implements UserService {
     @Override
     public void save(UserRegistrationDto userRegistrationDto) {
 
-        User user = new User();
+        User user;
+        if(userDao.findByUsername(userRegistrationDto.getUsername()) != null){
+            user = userDao.findByUsername(userRegistrationDto.getUsername());
+        } else{
+            user = new User();
+        }
 
         // assign user details to the user object
         user.setUsername(userRegistrationDto.getUsername());
-        user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
+        if(user.getPassword() == null){
+            user.setPassword(passwordEncoder.encode(userRegistrationDto.getPassword()));
+        } else{
+            user.setPassword(userRegistrationDto.getPassword());
+        }
         user.setFirstName(userRegistrationDto.getFirstName());
         user.setLastName(userRegistrationDto.getLastName());
         user.setEmail(userRegistrationDto.getEmail());
 
-        // give user default role of "employees"
+        // give user default role of "users"
 
-        user.setRoles(Arrays.asList(roleDao.findByRole("USER")));
+        if(user.getRoles()==null){
+            user.setRoles(Arrays.asList(roleDao.findByRole("USER")));
+        }
 
         // save user in the database
         userDao.save(user);
@@ -95,5 +106,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public BCryptPasswordEncoder getPasswordEncoder() {
         return passwordEncoder;
+    }
+
+    @Override
+    public Page<User> findBySearch(String search, Pageable pageable) {
+        return userDao.findBySearch(search, pageable);
     }
 }

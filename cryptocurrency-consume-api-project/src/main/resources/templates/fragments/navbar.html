@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
 
     <script type="text/javascript" th:src="@{https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js}"></script>
     <script type="text/javascript" th:src="@{https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js}"></script>
@@ -24,6 +24,10 @@
     }
     li {
         list-style-type: none;
+    }
+    .fa-star {
+        font-size: 25px;
+        color:gold;
     }
 </style>
 
@@ -63,12 +67,20 @@
             </li>
         </ul>
 
-        <ul th:if="${#strings.contains(#httpServletRequest.requestURI, '/list')} or ${#strings.contains(#httpServletRequest.requestURI, '/admin/panel')}" class="navbar-nav mr-auto mt-lg-0">
+        <ul th:if="${#strings.contains(#httpServletRequest.requestURI, '/list')}" class="navbar-nav mr-auto mt-lg-0">
             <form class="form-inline my-2 my-lg-0 mr-5" th:action="@{/list/search}">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
                 <button class="btn btn-outline-info" type="submit">Search</button>
             </form>
         </ul>
+
+        <ul th:if="${#strings.contains(#httpServletRequest.requestURI, '/admin/userlist')}" class="navbar-nav mr-auto mt-lg-0">
+            <form class="form-inline my-2 my-lg-0 mr-5" th:action="@{/admin/userlist/search}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+                <button class="btn btn-outline-info" type="submit">Search</button>
+            </form>
+        </ul>
+
         <span sec:authorize="isAuthenticated()">
             <li class="nav-item dropdown mr-5">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -76,7 +88,7 @@
                 </a>
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
-                        <a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/panel}">Admin Panel</a>
+                        <a class="dropdown-item" sec:authorize="hasAuthority('ADMIN')" th:href="@{/admin/userlist}">Admin Panel</a>
                     <a class="dropdown-item" th:href="@{/user/profile}">Profile</a>
                     <a class="dropdown-item" th:href="@{/logout}">Logout</a>
                 </div>
