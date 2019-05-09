@@ -15,7 +15,7 @@
 <div th:replace="fragments/navbar :: navbar"></div>
 
 <br>
-<div class="card bg-light mb-3 mx-auto" style="width: 50rem;">
+<div class="card bg-light mb-3 mx-auto" style="width: 50rem;" th:if="${#strings.contains(#httpServletRequest.requestURI, 'list')}">
     <div class="card-header text-center"><h2>Cryptocoin List</h2></div>
     <div class="card-body text-left" >
     <div class="container">
@@ -51,7 +51,8 @@
                            class="btn btn-light"/></td>
                     <td sec:authorize="isAuthenticated()">
                         <div>
-                            <i class='far fa-star'></i>
+                            <a th:if="${favList.contains(tempCoin)}" th:href="@{/list/fav(rank=${tempCoin.rank})}"><i class='fa fa-star'></i></a>
+                            <a th:if="${!favList.contains(tempCoin)}" th:href="@{/list/fav(rank=${tempCoin.rank})}"><i class='far fa-star'></i></a>
                         </div>
                     </td>
                 </tr>
@@ -59,6 +60,54 @@
             </tbody>
         </table>
     </div>
+    </div>
+</div>
+
+<div class="card bg-light mb-3 mx-auto" style="width: 50rem;" th:if="${#strings.contains(#httpServletRequest.requestURI, 'user/favorites')}">
+    <div class="card-header text-center"><h2>Favorite List</h2></div>
+    <div class="card-body text-left" >
+        <div class="container">
+            <table class="table table-bordered table-condensed table-hover table-sm">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Rank</th>
+                    <th>Coin Name</th>
+                    <th>Symbol</th>
+                    <th>Price USD</th>
+                    <th>Price BTC</th>
+                    <th sec:authorize="isAuthenticated()">Fav</th>
+                </tr>
+                </thead>
+
+                <tbody>
+
+                <tr th:each="tempCoin : ${favList}">
+                    <td><a th:text="${tempCoin.rank}"
+                           th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.name}"
+                           th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.symbol}"
+                           th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.priceUsd}"
+                           th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td><a th:text="${tempCoin.priceBtc}"
+                           th:href="@{/list/details(rank=${tempCoin.rank})}"
+                           class="btn btn-light"/></td>
+                    <td sec:authorize="isAuthenticated()">
+                        <div>
+                            <a th:if="${favList.contains(tempCoin)}" th:href="@{/list/fav(rank=${tempCoin.rank})}"><i class='fa fa-star'></i></a>
+                            <a th:if="${!favList.contains(tempCoin)}" th:href="@{/list/fav(rank=${tempCoin.rank})}"><i class='far fa-star'></i></a>
+                        </div>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>
 

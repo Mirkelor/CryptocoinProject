@@ -2,6 +2,7 @@ package com.mirkelor.cryptocurrencyapiproject.service;
 
 import com.mirkelor.cryptocurrencyapiproject.dao.RoleDao;
 import com.mirkelor.cryptocurrencyapiproject.dao.UserDao;
+import com.mirkelor.cryptocurrencyapiproject.entity.Cryptocoin;
 import com.mirkelor.cryptocurrencyapiproject.entity.Role;
 import com.mirkelor.cryptocurrencyapiproject.entity.User;
 import com.mirkelor.cryptocurrencyapiproject.user.UserRegistrationDto;
@@ -30,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
+    private CryptocoinService cryptocoinService;
 
     @Override
     public User findByUsername(String username) {
@@ -81,9 +85,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Page<User> findAll(Pageable pageable) {
-        return userDao.findAll(pageable);
+    public void addFavorite(String username ,int rank){
+
+        User user = findByUsername(username);
+
+        Cryptocoin cryptocoin = cryptocoinService.findByRank(rank);
+
+        if (!user.getFavorites().contains(cryptocoin)){
+
+            user.getFavorites().add(cryptocoin);
+        } else{
+
+            user.getFavorites().remove(cryptocoin);
+        }
+
+        userDao.save(user);
+
     }
+
+
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -105,11 +125,19 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public BCryptPasswordEncoder getPasswordEncoder() {
+
         return passwordEncoder;
     }
 
     @Override
     public Page<User> findBySearch(String search, Pageable pageable) {
+
         return userDao.findBySearch(search, pageable);
+    }
+
+    @Override
+    public Page<User> findAll(Pageable pageable) {
+
+        return userDao.findAll(pageable);
     }
 }

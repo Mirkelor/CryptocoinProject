@@ -17,8 +17,12 @@
 
 <br>
 
-<div class="card bg-light mb-3 mx-auto" style="width: 60rem;">
-    <div class="card-header text-center"><h2>Coin Details</h2></div>
+<div class="card bg-light mb-3 mx-auto" style="width: 32rem;">
+    <div class="card-header text-center">
+            <h2 th:text="${cryptocoin.name}"></h2>
+            <a th:if="${favList.contains(cryptocoin)}" th:href="@{/list/fav(rank=${cryptocoin.rank})}"><i class='fa fa-star'></i></a>
+            <a th:if="${!favList.contains(cryptocoin)}" th:href="@{/list/fav(rank=${cryptocoin.rank})}"><i class='far fa-star'></i></a>
+    </div>
     <div class="card-body text-left" >
     <div class="container">
 
@@ -73,12 +77,16 @@
             </tbody>
         </table>
 
-        <form action="coin-list.html" th:action="@{/list}">
-            <button type="submit" class="btn btn-outline-info">Back To Coin List</button>
-        </form>
+            <button type="submit" class="btn btn-outline-info" onclick="goBack()">Back To Coin List</button>
     </div>
     </div>
 </div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 
 </body>
 </html>
