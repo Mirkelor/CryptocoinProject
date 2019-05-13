@@ -78,6 +78,13 @@
             </form>
         </ul>
 
+        <ul th:if="${#strings.contains(#httpServletRequest.requestURI, '/user/favorites')}" class="navbar-nav mr-auto mt-lg-0">
+            <form class="form-inline my-2 my-lg-0 mr-5" th:action="@{/admin/userlist/search}">
+                <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search" id="search">
+                <button class="btn btn-outline-info" type="submit">Search</button>
+            </form>
+        </ul>
+
         <span sec:authorize="isAuthenticated()">
             <li class="nav-item dropdown mr-5">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

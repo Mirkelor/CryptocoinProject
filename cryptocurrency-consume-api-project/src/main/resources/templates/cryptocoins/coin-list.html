@@ -33,22 +33,13 @@
 
             <tbody>
 
-                <tr th:each="tempCoin : ${coinList}">
-                    <td><a th:text="${tempCoin.rank}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.name}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.symbol}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.priceUsd}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.priceBtc}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
+                <tr id="table" class='clickable-row' th:each="tempCoin : ${coinList}"
+                    th:data-href="@{/list/details(rank=${tempCoin.rank})}">
+                    <td><a th:text="${tempCoin.rank}"/></td>
+                    <td><a th:text="${tempCoin.name}"/></td>
+                    <td><a th:text="${tempCoin.symbol}"/></td>
+                    <td><a th:text="${tempCoin.priceUsd}"/></td>
+                    <td><a th:text="${tempCoin.priceBtc}"/></td>
                     <td sec:authorize="isAuthenticated()">
                         <div>
                             <a th:if="${favList.contains(tempCoin)}" th:href="@{/list/fav(rank=${tempCoin.rank})}"><i class='fa fa-star'></i></a>
@@ -81,22 +72,12 @@
 
                 <tbody>
 
-                <tr th:each="tempCoin : ${favList}">
-                    <td><a th:text="${tempCoin.rank}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.name}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.symbol}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.priceUsd}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
-                    <td><a th:text="${tempCoin.priceBtc}"
-                           th:href="@{/list/details(rank=${tempCoin.rank})}"
-                           class="btn btn-light"/></td>
+                <tr id="tableFav" th:each="tempCoin : ${favList}" class='clickable-row' th:data-href="@{/list/details(rank=${tempCoin.rank})}">
+                    <td><a th:text="${tempCoin.rank}"/></td>
+                    <td><a th:text="${tempCoin.name}"/></td>
+                    <td><a th:text="${tempCoin.symbol}"/></td>
+                    <td><a th:text="${tempCoin.priceUsd}"/></td>
+                    <td><a th:text="${tempCoin.priceBtc}"/></td>
                     <td sec:authorize="isAuthenticated()">
                         <div>
                             <a th:if="${favList.contains(tempCoin)}" th:href="@{/list/fav(rank=${tempCoin.rank})}"><i class='fa fa-star'></i></a>
@@ -176,11 +157,39 @@
         </ul>
     </nav>
 
-    <script th:inline="javascript">
-        $(".fa-star.far").click(function() {
-            $(this).toggleClass("fa far");
-        });
-    </script>
 
+<script th:inline="javascript">
+    $(".fa-star.far").click(function() {
+        $(this).toggleClass("fa far");
+    });
+
+    jQuery(document).ready(function($) {
+        $(".clickable-row").click(function() {
+            window.location = $(this).data("href");
+        });
+    });
+
+    var list = document.querySelectorAll('#tableFav');
+    var searchInput = document.querySelector('#search');
+
+    searchInput.addEventListener('keyup', function (e) {
+        var searchChar = e.target.value.toUpperCase();
+
+        Array.from(list).forEach(function (tr) {
+            var parName = tr.querySelectorAll('td')[1].textContent;
+            var parSymbol = tr.querySelectorAll('td')[2].textContent;
+
+            if(parName.toUpperCase().indexOf(searchChar) !== -1 || parSymbol.toUpperCase().indexOf(searchChar) !== -1){
+                tr.style.display = '';
+            } else {
+                tr.style.display = 'none';
+            }
+        });
+
+    });
+
+</script>
 </body>
+
+
 </html>
