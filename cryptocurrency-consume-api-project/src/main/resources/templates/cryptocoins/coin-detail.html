@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:replace="fragments/navbar :: imports"></div>
+<div th:replace="fragments/navbar :: background"></div>
+
+<head>
+
+    <title th:text="${cryptocoin.name} + ' Details - Mirkelor'"></title>
+
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+<br>
+
+<div class="card bg-light mb-3 mx-auto" style="width: 32rem;">
+    <div class="card-header text-center">
+            <h2 th:text="${cryptocoin.name}"></h2>
+            <a th:if="${favList.contains(cryptocoin)}" th:href="@{/list/fav(rank=${cryptocoin.rank})}"><i class='fa fa-star'></i></a>
+            <a th:if="${!favList.contains(cryptocoin)}" th:href="@{/list/fav(rank=${cryptocoin.rank})}"><i class='far fa-star'></i></a>
+    </div>
+    <div class="card-body text-left" >
+    <div class="container">
+
+            <!--Add hidden form file to handle update-->
+
+        <table class="table table-bordered table-striped" th:object="${cryptocoin}">
+            <tbody>
+            <tr>
+                <td>Rank</td>
+                <td th:text="*{rank}"/>
+            </tr>
+            <tr>
+                <td>Name</td>
+                <td th:text="*{name}"/>
+            </tr>
+            <tr>
+                <td>Symbol</td>
+                <td th:text="*{symbol}"/>
+            </tr>
+            <tr>
+                <td>Price USD</td>
+                <td th:text="*{priceUsd}"/>
+            </tr>
+            <tr>
+                <td>Price BTC</td>
+                <td th:text="*{priceBtc}"/>
+            </tr>
+            <tr>
+                <td>Volume 24H USD</td>
+                <td th:text="*{volumeUsd24H}"/>
+            </tr>
+            <tr>
+                <td>Market Cap USD</td>
+                <td th:text="*{marketCapUsd}"/>
+            </tr>
+            <tr>
+                <td>Available Supply</td>
+                <td th:text="*{availableSupply}"/>
+            </tr>
+            <tr>
+                <td>Total Supply</td>
+                <td th:text="*{totalSupply}"/>
+            </tr>
+            <tr>
+                <td>Change(%) 1H</td>
+                <td th:text="*{percentChange1H}"/>
+            </tr>
+            <tr>
+                <td>Change(%) 24H</td>
+                <td th:text="*{percentChange24H}"/>
+            </tr>
+            </tbody>
+        </table>
+
+            <button type="submit" class="btn btn-outline-info" onclick="goBack()">Back To Coin List</button>
+    </div>
+    </div>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+
+</body>
+</html>
