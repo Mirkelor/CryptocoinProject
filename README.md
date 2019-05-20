@@ -1,5 +1,5 @@
 # CryptocoinProject
-<h2>How to Deploy Spring Boot + MySQL App to Azure (FREE TIER)<h2>
+<h2>How to Deploy Spring Boot + MySQL App to Azure (FREE TIER)</h2>
 
 Creating Azure Database for MySQL Servers
 1. Enter Azure Database for MySQL to search bar. Create new database.
