@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<div th:replace="fragments/navbar :: imports"></div>
+<div th:replace="fragments/navbar :: background"></div>
+
+<head>
+
+    <title>Cryptocoin Home Page</title>
+
+</head>
+<body>
+
+<div th:replace="fragments/navbar :: navbar"></div>
+
+    <br>
+    <br>
+
+<div class="card bg-light mb-3 mx-auto" style="width: 50rem;">
+    <div class="card-header text-center">
+        <h2>Welcome to my website</h2>
+    </div>
+    <div class="card-body text-left" >
+        <div class="container">
+            Hi,
+            <br>
+            This demo project shows my Java, Spring Framework skills
+            <br>
+            <br>
+            Source codes of this app: <a href="https://github.com/Mirkelor/CryptocoinProject">Github Link</a>
+            <br>
+            My linkedin profile: <a href="https://www.linkedin.com/in/hasan-hüseyin-efe-177052114/">Here</a>
+            <br>
+            <br>
+            Hasan H. EFE
+        </div>
+    </div>
+
+</body>
+</html>
